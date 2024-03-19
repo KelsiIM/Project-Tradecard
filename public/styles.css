@@ -1,0 +1,73 @@
+body{
+    background-color: whitesmoke;
+}
+
+.navbar{
+    padding: 0px;
+}
+
+.container-fluid{
+    background-color: teal !important;
+    display: flex;
+}
+
+.navbar-brand{
+    color: white;
+    padding: 20px;
+}
+
+.nav-link{
+    color: white;
+}
+
+.btn{
+    color: teal;
+    background-color: whitesmoke;
+}
+
+.btn:hover{
+    background-color: teal;
+}
+
+.welcome.box {
+    margin: auto; 
+    width: 80%;
+    max-width: 700px; 
+    text-align: center; 
+}
+
+.welcome.box .greeting h1 {
+    font-size: 2.5rem; 
+    margin-bottom: 20px; 
+}
+
+.welcome.box .purpose h2 {
+    margin-top: 30px; 
+}
+
+.welcome.box .purpose p {
+    font-size: 1.1rem; 
+    line-height: 1.6; 
+    margin-bottom: 20px; 
+}
+
+.welcome.box button {
+    margin-top: 20px; 
+}
+
+  .homeimg {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+}
+
+.pokemonimg {
+    max-width: 100%; 
+    width: 70%; 
+    height: 40%;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    opacity: 70%;
+}
