@@ -16,13 +16,15 @@ app.get("/", (req, res) => {
 });
 
 app.get("/cards", (req,res) => {
-    res.render("cards", {title : "TradeCard"});
-    const readsql = `SELECT * FROM pokemon_card`;
-    connection.query(readsql,(err, rows)=>{
-        if(err) throw err;
-        let stringdata = JSON.stringify(rows);
-        res.send(`<h2>Pokemon Cards</h2><code> ${stringdata} </code>`);
-    });
+    res.render("cards");
+});
+
+app.get("/expansions", (req,res) => {
+    res.render("expansions");
+});
+
+app.get("/signup", (req,res) => {
+    res.render("signup");
 });
 
 

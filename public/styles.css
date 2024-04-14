@@ -71,3 +71,7 @@ body{
     padding-top: 20px;
     opacity: 70%;
 }
+
+.form-control {
+    margin-bottom: 15px;
+}
