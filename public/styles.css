@@ -35,6 +35,10 @@ body{
     font-size: 1.2rem;
 }
 
+.container h1{
+    text-align: center;
+}
+
 .dashboard-heading{
     padding: 20px;
     text-decoration: underline;
@@ -50,7 +54,12 @@ body{
     align-items: center;
 }
 
+.card-list h1{
+    text-align: center;
+}
+
 .card-title{
     text-align: center;
 }
+
 
