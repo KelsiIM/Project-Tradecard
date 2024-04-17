@@ -7,71 +7,50 @@ body{
 }
 
 .container-fluid{
-    background-color: teal !important;
+    background-color: white;
     display: flex;
+    padding: 15px;
 }
 
-.navbar-brand{
-    color: white;
+.welcome-box {
+    margin: auto;
+    text-align: center;
+}
+
+.greeting h1{
+    font-size: 3.5rem;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.greeting h2{
     padding: 20px;
 }
 
-.nav-link{
-    color: white;
+.buttons {
+    margin-bottom: 30px;
 }
 
-.btn{
-    color: teal;
-    background-color: whitesmoke;
+.purpose{
+    font-size: 1.2rem;
 }
 
-.btn:hover{
-    background-color: teal;
+.dashboard-heading{
+    padding: 20px;
+    text-decoration: underline;
 }
 
-.welcome.box {
-    margin: auto; 
-    width: 80%;
-    max-width: 700px; 
-    text-align: center; 
+.dashboard-options{
+    padding: 15px;
 }
 
-.welcome.box .greeting h1 {
-    font-size: 2.5rem; 
-    margin-bottom: 20px; 
-}
-
-.welcome.box .purpose h2 {
-    margin-top: 30px; 
-}
-
-.welcome.box .purpose p {
-    font-size: 1.1rem; 
-    line-height: 1.6; 
-    margin-bottom: 20px; 
-}
-
-.welcome.box button {
-    margin-top: 20px; 
-}
-
-  .homeimg {
-    position: relative;
+.value-buttons-container{
     display: flex;
-    justify-content: center;
-    overflow: hidden;
-    width: 100%;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.pokemonimg {
-    max-width: 100%; 
-    width: 70%; 
-    height: 40%;
-    padding-bottom: 20px;
-    padding-top: 20px;
-    opacity: 70%;
+.card-title{
+    text-align: center;
 }
 
-.form-control {
-    margin-bottom: 15px;
-}

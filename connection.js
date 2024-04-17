@@ -1,9 +1,10 @@
+// database details holding the pokemon cards
 const mysql = require("mysql2");
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'root',
-    database: 'project_webdev',
+    database: '40429391',
     port: '8889'
 });
 
