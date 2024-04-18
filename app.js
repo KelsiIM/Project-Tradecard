@@ -1,13 +1,29 @@
 const path = require("path");
 const express = require("express");
-const app = express();
-const connection = require("./connection.js");
+const db = require("./connection.js");
+const cookieParser = require("cookie-parser");
+const sessions = require("express-session");
+const bcrypt = require("bcrypt");
 
-app.use(express.static(path.join(__dirname, "public")));
-// middleware
+const app = express();
+
 app.set("views", path.join(__dirname, "views"));
 app.set('view engine', 'ejs');
 
+app.use(express.static(path.join(__dirname, "public")));
+
+const oneHour = 1000 * 60 * 60 * 1;
+
+app.use(express.urlencoded({extended: true}));
+
+app.use(cookieParser());
+
+app.use(sessions({
+    secret: "secretpassword123",
+    saveUninitialized: true,
+    cookie: {maxAge : oneHour},
+    resave: false
+}));
 
 //routes 
 app.get("/", (req, res) => {
@@ -15,27 +31,30 @@ app.get("/", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
-    res.render("dashboard");
+    const sessionobj = req.session;
+    if(sessionobj.authen) {
+        const uid = sessionobj.authen;
+        const user = `SELECT * FROM user WHERE user_id = "${uid}"`;
+
+        db.query(user, (err, row) => {
+            const firstrow = row[0];
+            res.render("dashboard", {userdata : firstrow}); 
+        });
+    } else {
+        res.send("denied");
+    }
 });
 
 app.get("/cards", (req, res) => {
-    connection.query("SELECT * FROM card", (err, results) => {
-        if (err) throw err;
-        res.render("cards", { cards: results });
+    let readsql = `SELECT * FROM card;`;
+    db.query(readsql, (err, rows) => {
+        if(err) throw err;
+        res.render("cards", {title: "All Cards", rowdata : rows});
     });
 });
 
-app.get("/cards/:cardId", (req, res) => {
-    const cardId = req.params.cardId;
-    connection.query("SELECT * FROM card WHERE card_id = ?", [cardId], (err, results) => {
-        if (err) throw err;
-        if (results.length > 0) {
-            const card = results[0];
-            res.render("card_details", { card });
-        } else {
-            res.status(404).send("Card not found");
-        }
-    });
+app.get("/card_details", (req, res) => {
+    res.render("card_details");
 });
 
 app.get("/expansions", (req, res) => {
@@ -46,11 +65,36 @@ app.get("/login", (req, res) => {
     res.render("login");
 });
 
+app.post("/login", (req, res) => {
+    const useremail = req.body.emailField; 
+    const checkuser = `SELECT * FROM user WHERE email = "${useremail}"`;
+
+    db.query(checkuser, (err, rows) => {
+        if (err) throw err;
+        const numRows = rows.length;
+
+        if (numRows > 0) {
+            const sessionobj = req.session;
+            sessionobj.authen = rows[0].user_id
+            res.redirect("dashboard");
+        } else {
+            res.redirect("login");
+        }
+    });
+});
+
+app.get("/logout", (req, res) => {
+    req.session.destroy((err) => {
+        if(err) throw err;
+        res.redirect("/");
+    });
+});
+    
 app.get("/register", (req, res) => {
     res.render("register");
 });
 
-connection.connect((err) => {
+db.connect((err) => {
     if(err){
         return console.log(err.message);
     } else {

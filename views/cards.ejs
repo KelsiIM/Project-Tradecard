@@ -11,26 +11,29 @@
 
     <%- include('navbar') %>
 
-    <main class="card-list">
-        <h1>All Cards</h1>
-        <div class="container mt-4">
-            <div class="row">
-                <% cards.forEach(card => { %>
-                    <div class="col-md-3 mb-4">
-                        <div class="card">
-                            <a href="/cards/<%= card.card_id %>">
+    <header class="card-page">
+        <h1><%= title %></h1>
+    </header>
+    <hr>
+    <main class="card-list"> 
+        <div class="container mt-4"> <!--top margin 1.5rem bootstrap-->
+            <div class="row row-cols-1 row-cols-md-4 row-cols-lg-5"> <!-- show one card on small screens, 4 on medium and 5 on large-->
+                <% rowdata.forEach((card)=> { %>
+                    <div class="col mb-4">
+                        <div class="card"> 
+                            <a href="/card_details?card_id=<%=card.card_id%>"> <!-- when the card image is clicked on, it will show full details-->
                                 <img src="<%= card.url_image %>" class="card-img-top" alt="<%= card.card_name %>">
                             </a>
                             <div class="card-body">
-                                <div class="value-buttons-container">
+                                <div class="value-buttons-container"> <!-- to hold the value and collection/wishlist buttons-->
                                     <button type="button" class="btn btn-primary btn-sm collection-button">Collection</button> 
-                                    <h5 class="card-title">$<%= card.value_price %></h5>
+                                    <h5 class="card-title">$<%= card.value_price %></h5> 
                                     <button type="button" class="btn btn-danger btn-sm wishlist-button">Wishlist</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <% }); %>
+                <% }) %>
             </div>
         </div>
     </main>

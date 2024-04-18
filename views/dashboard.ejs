@@ -13,7 +13,8 @@
 
     <main>
         <div class="dashboard-heading">
-            <h1> Welcome Kelsi to your Dashboard </h1>
+            <h1> Welcome <%= userdata.username %> to your Dashboard </h1>
+            <h2> Logged in as : <%= userdata.user_role %></h2>
         </div>
         <div class="dashboard-options">
         <div class="row">
@@ -49,7 +50,7 @@
                   <div class="card-body">
                     <h5 class="card-title">Logout</h5>
                     <p class="card-text">Logout of your account. We hope to see you again soon!</p>
-                    <a href="#" class="btn btn-primary">Logout</a>
+                    <a href="/logout" class="btn btn-primary">Logout</a>
                   </div>
                 </div>
               </div>
