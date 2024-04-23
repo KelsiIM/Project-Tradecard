@@ -11,14 +11,27 @@
 
     <%- include('navbar') %>
 
-    <main>
-        <div>
-            <form action="login" method="POST">
-                <p>
-                    email: <input name="emailField">
-                </p>
-                <input type="submit" value="login">
-            </form>
+    <header class="login-header">
+        <h1> Log in </h1>
+    </header>
+
+    <main class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <form action="login" method="POST">
+                    <div class="login-details">
+                        <label for="emailField" class="form-label">Email</label>
+                        <input type="email" name="emailField" class="form-control">
+
+                        <label for="passwordField" class="form-label">Password</label>
+                        <input type="password" name="passwordField" class="form-control">
+                        <button type="submit" class="btn btn-dark">Login</button>
+                        <div>
+                            <p>Not a member? <a href="register">Register here!</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </main>
 

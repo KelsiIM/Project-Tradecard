@@ -12,6 +12,15 @@ body{
     padding: 15px;
 }
 
+.navbar-brand img{
+    width: 30px;
+    height: 30px;
+}
+
+.navbar-brand strong{
+    font-size: 24px;
+}
+
 .welcome-box {
     margin: auto;
     text-align: center;
@@ -39,9 +48,14 @@ body{
     text-align: center;
 }
 
-.dashboard-heading{
+.dashboard-heading h1{
     padding: 20px;
     text-decoration: underline;
+    text-align: center;
+}
+.dashboard-heading h4{
+    margin-left: 20px;
+    text-align: center;
 }
 
 .dashboard-options{
@@ -58,4 +72,30 @@ body{
     text-align: center;
 }
 
+.login-header{
+    margin-top: 15px;
+    text-align: center;
+}
 
+.login-details {
+    padding: 30px;
+}
+
+.login-details button{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.register-heading{
+    margin-top: 15px;
+    text-align: center;
+}
+
+.register-details{
+    padding: 30px;
+}
+
+.register-details button{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
