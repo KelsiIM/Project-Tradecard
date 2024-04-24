@@ -10,8 +10,34 @@
 <body>
 
     <%- include('navbar') %>
+    <header class="detail-header">
+      <h1>Card Details</h1>  
+    </header>
 
-
+    <div class="container-fluid">
+        <div class="card-image">
+            <img src="<%= card.url_image %>" alt="<%= card.card_name %>">
+        </div>
+        <div class="card-info">
+            <h2><%= card.card_name %></h2>
+            <p>Value: <%= card.value_price %></p>
+            <p>Card Number: <%= card.card_number %></p>
+            <p>Illustrator: <%= card.illustrator %></p>
+            <p>Rarity: <%= card.rarity %></p>
+            <p>Expansion: <%= card.expansion_name %></p>
+            <p>Year of Release: <%= card.release_date %></p>
+            <p>Format: <%= card.format %></p>
+            <p>Regulation Mark: <%= card.regulation_mark %></p>
+            <p>Pokémon HP: <%= card.HP %></p>
+            <p>Ability Description: <%= card.ability_description %></p>
+            <p>Attack Description: <%= card.attack_description %></p>
+            <p>Weakness: <%= card.weakness %></p>
+            <p>Resistance: <%= card.resistance %></p>
+            <p>Stage: <%= card.stage %></p>
+            <p>Energy Type: <%= card.energy_type %></p>
+            <p>Card Type: <%= card.type_name %></p>
+        </div>
+    </div>
 
     <%- include('footer') %>
     

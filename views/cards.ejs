@@ -14,12 +14,12 @@
     <header class="card-page">
         <h1><%= title %></h1>
     </header>
-    <hr>
+    
     <main class="card-list"> 
-        <div class="container mt-4"> <!--top margin 1.5rem bootstrap-->
+        <div class="container">
             <div class="row row-cols-1 row-cols-md-4 row-cols-lg-5"> <!-- show one card on small screens, 4 on medium and 5 on large-->
                 <% rowdata.forEach((card)=> { %>
-                    <div class="col mb-4">
+                    <div class="col">
                         <div class="card"> 
                             <a href="/card_details?card_id=<%=card.card_id%>"> <!-- when the card image is clicked on, it will show full details of the card-->
                                 <img src="<%= card.url_image %>" class="card-img-top" alt="<%= card.card_name %>">

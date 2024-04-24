@@ -54,7 +54,24 @@ app.get("/cards", (req, res) => {
 });
 
 app.get("/card_details", (req, res) => {
-    res.render("card_details");
+    const cardId = req.query.card_id;
+    let readsql = `SELECT card.card_name, card.url_image, card.value_price, card.card_number, card.illustrator, card.rarity, 
+    expansion.expansion_name, expansion.release_date, card.format, card.regulation_mark, card.HP, card.ability_description, 
+    card.attack_description, card.card_rule_description, card.weakness, card.resistance, card.stage, card.energy_type, 
+    card_type.type_name
+    FROM card
+    INNER JOIN
+    expansion ON card.expansion_id = expansion.expansion_id
+    INNER JOIN
+    card_type ON card.card_type_id = card_type.card_type_id
+    WHERE card.card_id = ?`;
+
+    db.query(readsql, [cardId],(err, rows) => {
+        if(err) throw err;
+        if(rows.length > 0) {
+        res.render("card_details", {card: rows[0]});    
+        };
+    });
 });
 
 app.get("/expansions", (req, res) => {
@@ -109,12 +126,37 @@ app.post("/register", async (req, res) => {
     const username = req.body.usernameField;
     const usercomment = req.body.commentField;
 
-    // const usersearch = `SELECT * FROM user WHERE user_id = ?`;
+
     const userinsert = `INSERT INTO user (email, password, username, comment) VALUES (?, ?, ?, ?)`;
 
     db.query(userinsert, [useremail, hashedpassword, username, usercomment], (err, rows) => {
         if (err) throw err;
         res.redirect("dashboard")
+    });
+});
+
+app.get("/update-user", (req, res) => {
+    res.render("update-user");
+});
+
+
+
+
+app.get("/delete-user", (req, res) => {
+    res.render("delete-user");
+});
+
+app.post("/delete-user", (req, res) => {
+    const userid = req.session.authen;
+
+    const deleteUser = `DELETE FROM user WHERE user_id = ?`;
+
+    db.query(deleteUser, [userid], (err, result) => {
+        if (err) throw err;
+        req.session.destroy((err) => {
+            if (err) throw err;
+            res.redirect("/");
+        });
     });
 });
 
