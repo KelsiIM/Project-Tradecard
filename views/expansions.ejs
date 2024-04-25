@@ -11,6 +11,17 @@
 
     <%- include('navbar') %>
 
+    <header class="expansion-page">
+        <h1>Pokémon Expansions</h1>
+    </header>
+
+    <main class="container-fluid">
+        <ul class="expansion-list"> <!--want to display list of expansion names and show the cards belonging to each when clicked-->
+            <% rowdata.forEach(expansion => { %>
+                <li><a href="/expansions-cards?expansion_id=<%= expansion.expansion_id %>"><%= expansion.expansion_name %></a></li>
+            <% }) %>
+        </ul>
+    </main>
 
     <%- include('footer') %>
     

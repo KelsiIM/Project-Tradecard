@@ -14,31 +14,67 @@
       <h1>Card Details</h1>  
     </header>
 
-    <div class="container-fluid">
-        <div class="card-image">
-            <img src="<%= card.url_image %>" alt="<%= card.card_name %>">
-        </div>
-        <div class="card-info">
-            <h2><%= card.card_name %></h2>
-            <p>Value: <%= card.value_price %></p>
-            <p>Card Number: <%= card.card_number %></p>
-            <p>Illustrator: <%= card.illustrator %></p>
-            <p>Rarity: <%= card.rarity %></p>
-            <p>Expansion: <%= card.expansion_name %></p>
-            <p>Year of Release: <%= card.release_date %></p>
-            <p>Format: <%= card.format %></p>
-            <p>Regulation Mark: <%= card.regulation_mark %></p>
-            <p>Pokémon HP: <%= card.HP %></p>
-            <p>Ability Description: <%= card.ability_description %></p>
-            <p>Attack Description: <%= card.attack_description %></p>
-            <p>Weakness: <%= card.weakness %></p>
-            <p>Resistance: <%= card.resistance %></p>
-            <p>Stage: <%= card.stage %></p>
-            <p>Energy Type: <%= card.energy_type %></p>
-            <p>Card Type: <%= card.type_name %></p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card-image">
+                    <img src="<%= card.url_image %>" alt="<%= card.card_name %>">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-info">
+                    <h2><em><%= card.card_name %></em></h2>
+                    <!-- no need for if statement as all cards have these attributes-->
+                    <p><strong>Value - </strong>$<%= card.value_price %></p>
+                    <p><strong>Card Number - </strong><%= card.card_number %></p>
+                    <p><strong>Illustrator - </strong><%= card.illustrator %></p>
+                    <p><strong>Rarity - </strong><%= card.rarity %></p>
+                    <p><strong>Expansion - </strong><%= card.expansion_name %></p>
+                    <p><strong>Year of Release - </strong><%= card.release_date %></p>
+                    <p><strong>Format - </strong><%= card.format %></p>
+                    <p><strong>Card Type - </strong><%= card.type_name %></p>
+
+                    <!--if statement to display or hide on webpage whether the card has these attributes or not-->
+                    <% if (card.regulation_mark) { %>
+                        <p><strong>Regulation Mark - </strong><%= card.regulation_mark %></p>
+                    <% } %>
+                    
+                    <% if (card.HP) { %>
+                        <p><strong>Pokémon HP - </strong><%= card.HP %></p>
+                    <% } %>
+                    
+                    <% if (card.ability_description) { %>
+                        <p><strong>Ability Description - </strong><%= card.ability_description %></p>
+                    <% } %>
+                    
+                    <% if (card.attack_description) { %>
+                        <p><strong>Attack Description -  </strong><%= card.attack_description %></p>
+                    <% } %>
+
+                    <% if (card.weakness) { %>
+                        <p><strong>Weakness - </strong><%= card.weakness %></p>
+                    <% } %>
+                    
+                    <% if (card.resistance) { %>
+                        <p><strong>Resistance - </strong><%= card.resistance %></p>
+                    <% } %>
+                    
+                    <% if (card.stage) { %>
+                        <p><strong>Stage - </strong><%= card.stage %></p>
+                    <% } %>
+                    
+                    <% if (card.energy_type) { %>
+                        <p><strong>Energy Type - </strong><%= card.energy_type %></p>
+                    <% } %>
+
+                </div>
+            <div class="collection-wishlist">
+                <button type="button" class="btn btn-dark btn-sm collection-button"> Collection </button>
+                <button type="button" class="btn btn-danger btn-sm wishlist-button"> Wishlist </button>
+            </div>
         </div>
     </div>
-
+</div>
     <%- include('footer') %>
     
 </body>

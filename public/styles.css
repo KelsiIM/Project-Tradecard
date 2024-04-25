@@ -4,11 +4,10 @@ body{
 
 .navbar{
     padding: 0px;
+    background-color: white;
 }
 
 .container-fluid{
-    background-color: white;
-    display: flex;
     padding: 15px;
 }
 
@@ -72,6 +71,12 @@ body{
     text-align: center;
     padding: 20px;
     margin-bottom: 120px;
+}
+
+.detail-header{
+    text-align: center;
+    padding: 20px;
+    text-decoration: underline;
 }
 
 .login-header{

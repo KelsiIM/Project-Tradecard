@@ -49,7 +49,7 @@ app.get("/cards", (req, res) => {
     let readsql = `SELECT * FROM card;`;
     db.query(readsql, (err, rows) => {
         if (err) throw err;
-        res.render("cards", { title: "All Cards", rowdata: rows });
+        res.render("cards", { rowdata: rows });
     });
 });
 
@@ -75,7 +75,21 @@ app.get("/card_details", (req, res) => {
 });
 
 app.get("/expansions", (req, res) => {
-    res.render("expansions");
+    let readsql = `SELECT * FROM expansion;`;
+    db.query(readsql, (err, rows) => {
+        if (err) throw err;
+        res.render("expansions", { rowdata: rows });
+    });
+});
+
+app.get("/expansions-cards", (req, res) => {
+    const expansionId = req.query.expansion_id;
+    let readsql = `SELECT * FROM card WHERE expansion_id = ?`;
+
+    db.query(readsql, [expansionId], (err, rows) => {
+        if(err) throw err;
+        res.render("cards", {rowdata : rows});
+    });
 });
 
 app.get("/login", (req, res) => {
