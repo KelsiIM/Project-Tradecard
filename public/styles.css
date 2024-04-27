@@ -1,5 +1,6 @@
 body{
-    background-color: whitesmoke;
+    background-color: #EEEEEE;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .navbar{
@@ -49,12 +50,14 @@ body{
 
 .dashboard-heading h1{
     padding: 20px;
+    margin-bottom: 30px;
     text-decoration: underline;
     text-align: center;
 }
 .dashboard-heading h4{
     margin-left: 20px;
     text-align: center;
+    margin-bottom: 40px;
 }
 
 .dashboard-options{
@@ -69,8 +72,18 @@ body{
 
 .card-page h1{
     text-align: center;
+    text-decoration: underline;
     padding: 20px;
-    margin-bottom: 120px;
+    margin-bottom: 30px;
+}
+.filter-buttons{
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+
+.filter-buttons p{
+    font-size: 30px;
 }
 
 .detail-header{
@@ -79,6 +92,9 @@ body{
     text-decoration: underline;
 }
 
+.login-header h1{
+    text-decoration: underline;
+}
 .login-header{
     margin-top: 15px;
     text-align: center;
@@ -123,4 +139,26 @@ body{
     text-align: center;
     font-size: 20px;
     padding: 20px;
+}
+
+.expansion-heading{
+    text-align: center;
+    text-decoration: underline;
+    margin-bottom: 70px;
+}
+
+.expansion-list{
+    text-align: center;
+    list-style-type: none;
+}
+
+.user-collection h1{
+    text-align: center;
+    padding: 50px;
+    text-decoration: underline;
+}
+
+.collection-buttons{
+    text-align: center;
+    margin-top: 40px;
 }

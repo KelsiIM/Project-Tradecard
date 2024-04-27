@@ -28,9 +28,9 @@
                     <p><strong>Value - </strong>$<%= card.value_price %></p>
                     <p><strong>Card Number - </strong><%= card.card_number %></p>
                     <p><strong>Illustrator - </strong><%= card.illustrator %></p>
-                    <p><strong>Rarity - </strong><%= card.rarity %></p>
+                    <p><strong>Rarity - </strong><%= card.rarity_type %></p>
                     <p><strong>Expansion - </strong><%= card.expansion_name %></p>
-                    <p><strong>Year of Release - </strong><%= card.release_date %></p>
+                    <p><strong>Date of Release - </strong><%= card.release_date.toString().substring(3, 15) %></p>
                     <p><strong>Format - </strong><%= card.format %></p>
                     <p><strong>Card Type - </strong><%= card.type_name %></p>
 
