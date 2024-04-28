@@ -52,8 +52,11 @@ app.get("/dashboard", (req, res) => {
 app.get("/cards", (req, res) => {
     let readsql = `SELECT * FROM card;`;
     db.query(readsql, (err, rows) => {
-        if (err) throw err;
-        res.render("cards", { rowdata: rows });
+        if (err){
+            res.render("404");
+        } else {
+            res.render("cards", { rowdata: rows });
+        }
     });
 });
 
@@ -85,8 +88,11 @@ app.get("/card-details", (req, res) => {
 app.get("/expansions", (req, res) => {
     let readsql = `SELECT * FROM expansion;`;
     db.query(readsql, (err, rows) => {
-        if (err) throw err;
-        res.render("expansions", { rowdata: rows });
+        if (err){
+            res.render("404");
+        } else {
+            res.render("expansions", { rowdata: rows });
+        }
     });
 });
 
@@ -96,8 +102,11 @@ app.get("/expansions-cards", (req, res) => {
     let readsql = `SELECT * FROM card WHERE expansion_id = ?`;
 
     db.query(readsql, [expansionId], (err, rows) => {
-        if(err) throw err;
-        res.render("cards", {rowdata : rows});
+        if(err){
+            res.render("404");
+        } else {
+           res.render("cards", {rowdata : rows}); 
+        }
     });
 });
 
@@ -136,8 +145,11 @@ app.post("/login", async (req, res) => {
 // allows the user to end their session, and return them to the home page
 app.get("/logout", (req, res) => {
     req.session.destroy((err) => {
-        if (err) throw err;
-        res.redirect("/");
+        if (err){
+            res.render("404");
+        } else {
+            res.redirect("login");
+        }
     });
 });
 
@@ -156,10 +168,14 @@ app.post("/register", async (req, res) => {
     const userinsert = `INSERT INTO user (email, password, username, comment) VALUES (?, ?, ?, ?)`;
 
     db.query(userinsert, [useremail, hashedpassword, username, usercomment], (err, rows) => {
-        if (err) throw err;
-        res.redirect("dashboard")
+        if (err){
+            res.render("404");
+        } else {
+           res.redirect("dashboard") 
+        }
     });
 });
+
 
 app.get("/update-user", (req, res) => {
     res.render("update-user");
@@ -182,7 +198,7 @@ app.post("/delete-user", (req, res) => {
         if (err) throw err;
         req.session.destroy((err) => {
             if (err) throw err;
-            res.redirect("/");
+            res.redirect("login");
         });
     });
 });
@@ -193,65 +209,103 @@ app.get("/filter", (req, res) => {
     const cardsSQL = `SELECT card_id, card_name, url_image, value_price, energy_type FROM card ORDER BY ${filter};`;
 
     db.query(cardsSQL, (err, result) => {
-        if(err) throw err;
-        res.render("cards", {rowdata : result});
+        if(err){
+            res.render("404");
+        } else {
+            res.render("cards", {rowdata : result});
+        }
     });
 });
 
+// the user can view their collections with this route
 app.get("/collection", (req, res) => {
-    let readsql = `SELECT * FROM collection;`;
-    db.query(readsql, (err, rows) => {
-        if (err) throw err;
-        res.render("collection", { rowdata: rows });
-    });
-});
-
-app.get("/create-collection", (req, res) => {
-    res.render("create-collection");
-});
-
-app.post("/create-collection", (req, res) => {
-    const collectionName = req.body.nameField;
-    const collectionDescript = req.body.descriptField;
     const sessionobj = req.session;
 
-    if(sessionobj.authen) {
+    // need to check the user id to show the user only their collections from this route
+    if(sessionobj.authen){
         const uid = sessionobj.authen;
-        
-        const newCollection = `INSERT INTO collection (name, description, user_id) VALUES (?, ?, ?)`;
+        const userCollections = `SELECT * FROM collection WHERE user_id = ?`;
 
-        db.query(newCollection, [collectionName, collectionDescript, uid], (err, result) => {
-            if(err) {
-                console.error(err);
-                res.status(500).send('Internal server error occurred.');
+        db.query(userCollections, [uid], (err, result) => {
+            if(err){
+                res.render("404");
             } else {
-                res.redirect("collection");
+                res.render("collection", {rowdata:result});
             }
-        });
-    } else {
-        res.status(403).send('Unauthorized');
-    }
-});
-
-app.get("/all-collections", (req, res) => {
-    const sessionobj = req.session;
-    if (sessionobj.authen) {
-        const uid = sessionobj.authen;
-        const user = `SELECT * FROM user WHERE user_id = "${uid}"`;
-
-        db.query(user, (err, row) => {
-            const firstrow = row[0];
-            res.render("all-collections", { userdata: firstrow });
         });
     } else {
         res.redirect("login");
     }
 });
 
+app.get("/create-collection", (req, res) => {
+    res.render("create-collection");
+});
+
+// route to create a new record in the collection table - the user creates a new collection
+app.post("/create-collection", (req, res) => {
+    const collectionName = req.body.nameField; 
+    const collectionDescript = req.body.descriptField;
+    const sessionobj = req.session;
+
+    // need to check the user id to assign the collection to the correct user
+    if(sessionobj.authen) {
+        const uid = sessionobj.authen;
+        
+        const newCollection = `INSERT INTO collection (name, description, user_id) VALUES (?, ?, ?)`;
+        
+        db.query(newCollection, [collectionName, collectionDescript, uid], (err, result) => {
+            if(err) {
+                res.render("404");
+            } else {
+                res.redirect("collection");
+            }
+        });
+    } 
+});
+
+// this route will show all member's collections - you must be a member to view other member's collections
+app.get("/all-collections", (req, res) => {
+    const sessionobj = req.session;
+
+    // check to see if the user is logged in
+    if(sessionobj.authen){
+        const allCollections = `SELECT * FROM collection INNER JOIN user ON collection.user_id = user.user_id`;
+
+        db.query(allCollections, (err, result) => {
+            if(err){
+                res.render("404");
+            } else {
+                res.render("all-collections", {rowdata:result}); //logged in and can view all member's collections
+            }
+        });
+    } else {
+        res.redirect("/login"); // not logged in and redirected to the login page
+    }
+});
+
+app.get("/collection-details", (req, res) => {
+    const collectionId = req.query.collection_id;
+    let readsql = `SELECT * FROM card WHERE expansion_id = ?`;
+
+    db.query(readsql, [expansionId], (err, rows) => {
+        if(err){
+            res.render("404");
+        } else {
+           res.render("cards", {rowdata : rows}); 
+        }
+    });
+});
 
 app.get("/wishlist", (req, res) => {
     res.render("wishlist");
 });
+
+// an error page to handle issues a user might face while using the website
+app.get("/404", (req, res) => {
+    res.render("404");
+});
+
 
 // if a connection has been made to the database, a message will show in the console confirming this
 db.connect((err) => {

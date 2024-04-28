@@ -20,19 +20,20 @@
         <a href="create-collection" class="btn btn-lg btn-dark">Create Collection</a>
     </div>
 
-   <div class="container">
     <div class="row">
         <% rowdata.forEach(collection => { %>
-            <div class="col-md-4">
-                <div class="card-body">
-                    <h5 class="card-title"> <%= collection.name %></h5>
-                    <p class="card-text"> <%= collection.description %></p>
-                </div>
+         <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"> <%= collection.name %></h5>
+              <p class="card-text"> <%= collection.description %></p>
+              <a href="#" class="btn btn-dark">View Collection</a>
+              <a href="#" class="btn btn-danger">Delete Collection</a>
             </div>
-        <% }) %>
+          </div>   
+        </div>
+       <% }); %>
     </div>
-   </div>
-
 
     <%- include('footer') %>
     

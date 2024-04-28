@@ -60,14 +60,14 @@ body{
     margin-bottom: 40px;
 }
 
-.dashboard-options{
-    padding: 15px;
-}
-
 .value-buttons-container{
    display: flex;
    justify-content: space-between;
    align-items: center;
+}
+
+.card{
+    margin-bottom: 1.5rem;
 }
 
 .card-page h1{
@@ -160,5 +160,25 @@ body{
 
 .collection-buttons{
     text-align: center;
-    margin-top: 40px;
+    margin-top: 10px;
+}
+
+.col-sm-4 {
+    padding: 30px;
+    margin-top: 15px;
+}
+
+.card-body{
+    text-align: center;
+}
+
+.error-page .container{
+    padding-top: 50px;
+    text-align: center;
+}
+
+.error-page img {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 20px;
 }
