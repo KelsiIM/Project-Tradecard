@@ -1,11 +1,11 @@
 body{
-    background-color: #EEEEEE;
+    background-color: #EEEEEE !important;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .navbar{
-    padding: 0px;
     background-color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .container-fluid{
@@ -152,9 +152,9 @@ body{
     list-style-type: none;
 }
 
-.user-collection h1{
+.user-collection h1, h4{
     text-align: center;
-    padding: 50px;
+    padding: 30px;
     text-decoration: underline;
 }
 

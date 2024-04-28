@@ -52,7 +52,7 @@ app.get("/dashboard", (req, res) => {
 app.get("/cards", (req, res) => {
     let readsql = `SELECT * FROM card;`;
     db.query(readsql, (err, rows) => {
-        if (err){
+        if (err) {
             res.render("404");
         } else {
             res.render("cards", { rowdata: rows });
@@ -61,9 +61,9 @@ app.get("/cards", (req, res) => {
 });
 
 // retrieve all the card details from the database to display when the card is clicked on
-app.get("/card-details", (req, res) => {
-    const cardId = req.query.card_id;
-    let readsql = `SELECT card.card_name, card.url_image, card.value_price, card.card_number, card.illustrator, rarity.rarity_type, 
+app.get("/card-details/:id", (req, res) => {
+    const cardId = req.params.id;
+    let readsql = `SELECT card.card_id, card.card_name, card.url_image, card.value_price, card.card_number, card.illustrator, rarity.rarity_type, 
     expansion.expansion_name, expansion.release_date, card.format, card.regulation_mark, card.HP, card.ability_description, 
     card.attack_description, card.card_rule_description, card.weakness, card.resistance, card.stage, card.energy_type, 
     card_type.type_name
@@ -76,19 +76,24 @@ app.get("/card-details", (req, res) => {
     card_type ON card.card_type_id = card_type.card_type_id
     WHERE card.card_id = ?`;
 
-    db.query(readsql, [cardId],(err, rows) => {
-        if(err) throw err;
-        if(rows.length > 0) {
-        res.render("card-details", {card: rows[0]});    
-        };
-    });
+    db.query(readsql, [cardId], (err, rows) => {
+        if (err) {
+            res.render("404");
+        } else {
+            if (rows.length > 0) {
+                res.render("card-details", { card: rows[0] });
+            } else {
+                res.render("404");
+            }
+        }
+    })
 });
 
 // display list of expansions and their release date
 app.get("/expansions", (req, res) => {
     let readsql = `SELECT * FROM expansion;`;
     db.query(readsql, (err, rows) => {
-        if (err){
+        if (err) {
             res.render("404");
         } else {
             res.render("expansions", { rowdata: rows });
@@ -97,15 +102,15 @@ app.get("/expansions", (req, res) => {
 });
 
 // display all the cards in each expansion
-app.get("/expansions-cards", (req, res) => {
-    const expansionId = req.query.expansion_id;
+app.get("/expansions-cards/:id", (req, res) => {
+    const expansionId = req.params.id;
     let readsql = `SELECT * FROM card WHERE expansion_id = ?`;
 
     db.query(readsql, [expansionId], (err, rows) => {
-        if(err){
+        if (err) {
             res.render("404");
         } else {
-           res.render("cards", {rowdata : rows}); 
+            res.render("cards", { rowdata: rows });
         }
     });
 });
@@ -136,16 +141,14 @@ app.post("/login", async (req, res) => {
             } else {
                 res.redirect("login");
             }
-        } else {
-            res.redirect("login");
-        }
+        };
     });
 });
 
 // allows the user to end their session, and return them to the home page
 app.get("/logout", (req, res) => {
     req.session.destroy((err) => {
-        if (err){
+        if (err) {
             res.render("404");
         } else {
             res.redirect("login");
@@ -168,10 +171,10 @@ app.post("/register", async (req, res) => {
     const userinsert = `INSERT INTO user (email, password, username, comment) VALUES (?, ?, ?, ?)`;
 
     db.query(userinsert, [useremail, hashedpassword, username, usercomment], (err, rows) => {
-        if (err){
+        if (err) {
             res.render("404");
         } else {
-           res.redirect("dashboard") 
+            res.redirect("dashboard")
         }
     });
 });
@@ -209,10 +212,10 @@ app.get("/filter", (req, res) => {
     const cardsSQL = `SELECT card_id, card_name, url_image, value_price, energy_type FROM card ORDER BY ${filter};`;
 
     db.query(cardsSQL, (err, result) => {
-        if(err){
+        if (err) {
             res.render("404");
         } else {
-            res.render("cards", {rowdata : result});
+            res.render("cards", { rowdata: result });
         }
     });
 });
@@ -222,15 +225,15 @@ app.get("/collection", (req, res) => {
     const sessionobj = req.session;
 
     // need to check the user id to show the user only their collections from this route
-    if(sessionobj.authen){
+    if (sessionobj.authen) {
         const uid = sessionobj.authen;
         const userCollections = `SELECT * FROM collection WHERE user_id = ?`;
 
         db.query(userCollections, [uid], (err, result) => {
-            if(err){
+            if (err) {
                 res.render("404");
             } else {
-                res.render("collection", {rowdata:result});
+                res.render("collection", { rowdata: result });
             }
         });
     } else {
@@ -244,24 +247,24 @@ app.get("/create-collection", (req, res) => {
 
 // route to create a new record in the collection table - the user creates a new collection
 app.post("/create-collection", (req, res) => {
-    const collectionName = req.body.nameField; 
+    const collectionName = req.body.nameField;
     const collectionDescript = req.body.descriptField;
     const sessionobj = req.session;
 
     // need to check the user id to assign the collection to the correct user
-    if(sessionobj.authen) {
+    if (sessionobj.authen) {
         const uid = sessionobj.authen;
-        
+
         const newCollection = `INSERT INTO collection (name, description, user_id) VALUES (?, ?, ?)`;
-        
+
         db.query(newCollection, [collectionName, collectionDescript, uid], (err, result) => {
-            if(err) {
+            if (err) {
                 res.render("404");
             } else {
                 res.redirect("collection");
             }
         });
-    } 
+    }
 });
 
 // this route will show all member's collections - you must be a member to view other member's collections
@@ -269,14 +272,14 @@ app.get("/all-collections", (req, res) => {
     const sessionobj = req.session;
 
     // check to see if the user is logged in
-    if(sessionobj.authen){
+    if (sessionobj.authen) {
         const allCollections = `SELECT * FROM collection INNER JOIN user ON collection.user_id = user.user_id`;
 
         db.query(allCollections, (err, result) => {
-            if(err){
+            if (err) {
                 res.render("404");
             } else {
-                res.render("all-collections", {rowdata:result}); //logged in and can view all member's collections
+                res.render("all-collections", { rowdata: result }); //logged in and can view all member's collections
             }
         });
     } else {
@@ -284,18 +287,55 @@ app.get("/all-collections", (req, res) => {
     }
 });
 
-app.get("/collection-details", (req, res) => {
-    const collectionId = req.query.collection_id;
-    let readsql = `SELECT * FROM card WHERE expansion_id = ?`;
+app.get("/collection-details/:id", (req, res) => {
+    const collectionId = req.params.id;
+    let readsql = `SELECT collection_card.collection_card_id, card.*, collection.*
+    FROM collection_card
+    INNER JOIN 
+    collection ON collection_card.collection_id = collection.collection_id
+    INNER JOIN
+    card ON collection_card.card_id = card.card_id
+    WHERE collection_card.collection_id = ?`;
 
-    db.query(readsql, [expansionId], (err, rows) => {
-        if(err){
+    db.query(readsql, [collectionId], (err, rows) => {
+        if (err) {
             res.render("404");
         } else {
-           res.render("cards", {rowdata : rows}); 
+            res.render("collection-details", { rowdata: rows });
         }
     });
 });
+
+app.get("/delete-collection/:id", (req, res) => {
+    const collectionId = req.params.id;
+    res.render("delete-collection", {collectionId : collectionId});
+});
+
+// if a user wants to delete a collection
+app.post("/delete-collection/:id", (req, res) => {
+    const collectionId = req.params.id;
+
+    // must delete the collection data from this table first before deleting the collection as a whole 
+    let deleteCollectionCard = `DELETE FROM collection_card WHERE collection_id = ?`;
+
+    db.query(deleteCollectionCard, [collectionId], (err, result) => {
+        if (err) {
+            res.render("404");
+        } else {
+            let deleteCollection = `DELETE FROM collection WHERE collection_id = ?`;
+
+            db.query(deleteCollection, [collectionId], (err, result) => {
+                if (err) {
+                    res.render("404");
+                } else {
+                    res.redirect("/collection");
+                }
+            });
+        }
+    });
+});
+
+
 
 app.get("/wishlist", (req, res) => {
     res.render("wishlist");
