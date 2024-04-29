@@ -70,8 +70,13 @@
 
                 </div>
             <div class="collection-wishlist">
-                <button type="button" class="btn btn-dark btn-sm collection-button"> Collection </button>
+                <form action="/choose-collection/<%= card.card_id %>" method="GET">
+                    <button type="submit" class="btn btn-dark btn-sm">Collection</button>
+                </form>
                 <button type="button" class="btn btn-danger btn-sm wishlist-button"> Wishlist </button>
+            </div>
+            <div class="back">
+                <a href="/cards" class="btn btn-lg btn-dark">Go Back</a>
             </div>
         </div>
     </div>

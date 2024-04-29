@@ -115,6 +115,7 @@ app.get("/expansions-cards/:id", (req, res) => {
     });
 });
 
+// renders the login page 
 app.get("/login", (req, res) => {
     res.render("login");
 });
@@ -156,6 +157,7 @@ app.get("/logout", (req, res) => {
     });
 });
 
+// renders the registration page for new memmbers
 app.get("/register", (req, res) => {
     res.render("register");
 });
@@ -186,7 +188,7 @@ app.get("/update-user", (req, res) => {
 
 
 
-
+// renders the delete-user page
 app.get("/delete-user", (req, res) => {
     res.render("delete-user");
 });
@@ -241,6 +243,7 @@ app.get("/collection", (req, res) => {
     }
 });
 
+// render the page to create a collection
 app.get("/create-collection", (req, res) => {
     res.render("create-collection");
 });
@@ -253,6 +256,7 @@ app.post("/create-collection", (req, res) => {
 
     // need to check the user id to assign the collection to the correct user
     if (sessionobj.authen) {
+
         const uid = sessionobj.authen;
 
         const newCollection = `INSERT INTO collection (name, description, user_id) VALUES (?, ?, ?)`;
@@ -261,7 +265,7 @@ app.post("/create-collection", (req, res) => {
             if (err) {
                 res.render("404");
             } else {
-                res.redirect("collection");
+                res.redirect("/collection");
             }
         });
     }
@@ -273,6 +277,7 @@ app.get("/all-collections", (req, res) => {
 
     // check to see if the user is logged in
     if (sessionobj.authen) {
+
         const allCollections = `SELECT * FROM collection INNER JOIN user ON collection.user_id = user.user_id`;
 
         db.query(allCollections, (err, result) => {
@@ -287,6 +292,8 @@ app.get("/all-collections", (req, res) => {
     }
 });
 
+
+// when a user wants to view the cards in a collection
 app.get("/collection-details/:id", (req, res) => {
     const collectionId = req.params.id;
     let readsql = `SELECT collection_card.collection_card_id, card.*, collection.*
@@ -301,14 +308,15 @@ app.get("/collection-details/:id", (req, res) => {
         if (err) {
             res.render("404");
         } else {
-            res.render("collection-details", { rowdata: rows });
+            res.render("collection-details", { rowdata: rows, collectionId: collectionId });
         }
     });
 });
 
+// renders page & passes collection_id to it
 app.get("/delete-collection/:id", (req, res) => {
     const collectionId = req.params.id;
-    res.render("delete-collection", {collectionId : collectionId});
+    res.render("delete-collection", { collectionId: collectionId });
 });
 
 // if a user wants to delete a collection
@@ -333,6 +341,84 @@ app.post("/delete-collection/:id", (req, res) => {
             });
         }
     });
+});
+
+// Route to display a modal/dropdown  with the user's collections so they can choose where to add the card
+app.get("/choose-collection/:id", (req, res) => {
+    const cardId = req.params.id;
+    const sessionobj = req.session;
+
+    // check to see if user is logged in
+    if (sessionobj.authen) {
+
+        // query to get users collections
+        const getCollections = `SELECT * FROM collection WHERE user_id = ?`;
+        const userId = sessionobj.authen;
+
+        db.query(getCollections, [userId, cardId], (err, rows) => {
+            if (err) {
+                res.render("404");
+            } else {
+                res.render("choose-collection", { cardId: cardId, collections: rows });
+            }
+        })
+    } else {
+        res.redirect("/login"); // not logged in, will be redirected
+    }
+});
+
+// adding a card to a collection
+app.post("/add-to-collection/:id", (req, res) => {
+    const cardId = req.params.id;
+    const collectionId = req.body.collectionId;
+
+    const addCardCollection = `INSERT INTO collection_card (collection_id, card_id) VALUES (?, ?)`;
+
+    db.query(addCardCollection, [collectionId, cardId], (err, result) => {
+        if (err) {
+            res.render("404");
+        } else {
+            res.redirect("/cards");
+        }
+    });
+});
+
+// to allow the user to remove a card from their collection - also checks the collection's user_id to stop other users from removing
+// cards from collections that aren't theirs
+app.post("/remove-card", (req, res) => {
+    const sessionobj = req.session;
+    const cardId = req.body.card_id;
+    const collectionId = req.body.collection_id;
+
+    if (sessionobj.authen) {
+        const userId = sessionobj.authen;
+
+        // query to check if the collection belongs to the user
+        const checkCollection = `SELECT user_id FROM collection WHERE collection_id = ?`;
+
+        db.query(checkCollection, [collectionId], (err, rows) => {
+            if (err || rows.length === 0) { // error or invalid collection_id
+                res.render("404");
+            } else {
+                const collectionUserId = rows[0].user_id; 
+                if (collectionUserId !== userId) { // if the collection's user_id does not match the current user_id
+                    res.render("404"); // collection does not belong to current user
+                    
+                } else {
+
+                    const removeCard = `DELETE FROM collection_card WHERE collection_id = ? AND card_id = ?`;
+
+                    db.query(removeCard, [collectionId, cardId], (err, result) => {
+                        if (err) {
+                            res.render("404");
+                        } else {
+                            res.redirect("/collection-details/" + collectionId);
+                        }
+                    });
+                }
+            }
+        });
+    }
 });
 
 

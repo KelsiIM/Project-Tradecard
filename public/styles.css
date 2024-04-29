@@ -182,3 +182,12 @@ body{
     margin: 0 auto;
     margin-bottom: 20px;
 }
+
+.back{
+    padding: 10px;
+    text-align: center;
+}
+
+.modal-buttons{
+    padding: 10px;
+}
