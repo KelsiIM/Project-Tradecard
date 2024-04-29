@@ -91,7 +91,7 @@ app.get("/card-details/:id", (req, res) => {
 
 // display list of expansions and their release date
 app.get("/expansions", (req, res) => {
-    let readsql = `SELECT * FROM expansion;`;
+    let readsql = `SELECT * FROM expansion ORDER BY release_date ASC;`; // want the expanions to be ordered in terms of release date, showing oldest first
     db.query(readsql, (err, rows) => {
         if (err) {
             res.render("404");
@@ -181,9 +181,47 @@ app.post("/register", async (req, res) => {
     });
 });
 
-
+// route to render the update user details page
 app.get("/update-user", (req, res) => {
-    res.render("update-user");
+    const sessionobj = req.session;
+
+   if(sessionobj.authen) {
+    const userId = sessionobj.authen;
+    const updateUser = `SELECT * FROM user WHERE user_id = "${userId}"`;
+
+    db.query(updateUser, (err, rows) => {
+        const firstrow = rows[0];
+        res.render("update-user", {userdata : firstrow});
+    });
+   } else {
+    res.redirect("/login");
+   }
+});
+
+// route that handles the update user details form submission
+app.post("/update-user", async (req, res) => {
+    const sessionobj = req.session;
+
+    if (sessionobj.authen) {
+        const userId = sessionobj.authen;
+        const updateEmail = req.body.emailField;
+        const updatePassword = await bcrypt.hash(req.body.passwordField, 10);
+        const updateUsername = req.body.usernameField;
+        const updateComment = req.body.commentField;
+
+        const updateUserDetails = `UPDATE user SET email = ?, password = ?, username = ?, comment = ?
+        WHERE user_id = ?`;
+
+        db.query(updateUserDetails, [updateEmail, updatePassword, updateUsername, updateComment, userId], (err, result) => {
+            if (err) {
+                res.render("404");
+            } else {
+                res.redirect("/dashboard");
+            }
+        });
+    } else {
+        res.redirect("login");
+    }
 });
 
 
@@ -378,7 +416,7 @@ app.post("/add-to-collection/:id", (req, res) => {
         if (err) {
             res.render("404");
         } else {
-            res.redirect("/cards");
+            res.redirect("/dashboard");
         }
     });
 });
@@ -400,10 +438,10 @@ app.post("/remove-card", (req, res) => {
             if (err || rows.length === 0) { // error or invalid collection_id
                 res.render("404");
             } else {
-                const collectionUserId = rows[0].user_id; 
+                const collectionUserId = rows[0].user_id;
                 if (collectionUserId !== userId) { // if the collection's user_id does not match the current user_id
                     res.render("404"); // collection does not belong to current user
-                    
+
                 } else {
 
                     const removeCard = `DELETE FROM collection_card WHERE collection_id = ? AND card_id = ?`;
@@ -424,7 +462,75 @@ app.post("/remove-card", (req, res) => {
 
 
 app.get("/wishlist", (req, res) => {
-    res.render("wishlist");
+    const sessionobj = req.session;
+
+    if (sessionobj.authen) {
+        const userId = sessionobj.authen;
+
+        // query to get the user's wishlist data from the database
+        const getWishlist = `SELECT wishlist.wishlist_id, card.*, user.*
+        FROM wishlist
+        INNER JOIN 
+        card ON wishlist.card_id = card.card_id
+        INNER JOIN
+        user ON wishlist.user_id = user.user_id
+        WHERE wishlist.user_id = ?`;
+
+        db.query(getWishlist, [userId], (err, rows) => {
+            if (err) {
+                res.render("404");
+            } else {
+                res.render("wishlist", { rowdata: rows });
+            }
+        })
+    } else {
+        res.redirect("/login");
+    }
+});
+
+// route to add card to a user's wishlist
+app.post("/wishlist", (req, res) => {
+    const cardId = req.body.card_id;
+    const sessionobj = req.session;
+
+    // check if user is logged in
+    if (sessionobj.authen) {
+        const userId = sessionobj.authen;
+
+        // sql query to add the card to the user's wishlist
+        const addCardWishlist = `INSERT INTO wishlist (card_id, user_id) VALUES (?, ?)`;
+
+        db.query(addCardWishlist, [cardId, userId], (err, result) => {
+            if (err) {
+                res.render("404");
+            } else {
+                res.redirect("/dashboard");
+            }
+        });
+    } else {
+        res.redirect("/login"); // if user is not logged in, redirect to login page
+    }
+});
+
+// route to be able to remove a card from the wishlist
+app.post("/remove-card-wishlist", (req, res) => {
+    const sessionobj = req.session;
+    const cardId = req.body.card_id;
+    const wishlistId = req.body.wishlist_id;
+
+    if (sessionobj.authen) {
+        const userId = sessionobj.authen;
+
+        const removeCardW = `DELETE FROM wishlist where card_id = ? AND user_id = ?`;
+
+        db.query(removeCardW, [cardId, userId], (err, result) => {
+            if (err) {
+                res.render("404");
+            } else {
+                res.redirect("/wishlist");
+            }
+        });
+    }
 });
 
 // an error page to handle issues a user might face while using the website

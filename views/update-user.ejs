@@ -16,19 +16,29 @@
     </header>
 
 
-    <!-- <main class="container">
+    <main class="container">
         <div class="row">
             <div class="col-md-6">
-                <form action="update-user" method="POST">
+                <form action="/update-user" method="POST">
                     <div class="user-details">
-                        <label for="emailField" class="form-label">Email</label>
-                        <input type="email" name="emailField" class="form-control" value="">
+                        <label for="emailField" class="form-label"> Email </label>
+                        <input type="email" name="emailField" class="form-control" value="<%= userdata.email %>">
                         <br>
+                        <label for="passwordField" class="form-label">Password</label>
+                        <input type="password" name="passwordField" class="form-control">
+                        <br>
+                        <label for="usernameField" class="form-label">Username</label>
+                        <input type="text" name="usernameField" class="form-control" value="<%= userdata.username %>">
+                        <br>
+                        <label for="commentField" class="form-label">About You</label>
+                        <textarea name="commentField" class="form-control"></textarea>
+                        <br>
+                        <button type="submit" class="btn btn-dark">Update</button>
                     </div>
                 </form>
             </div>
         </div>
-    </main> -->
+    </main>
 
 
 

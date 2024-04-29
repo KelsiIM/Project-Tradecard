@@ -124,8 +124,9 @@ body{
 }
 
 .update-header{
-    margin-top: 15px;
+    padding: 30px;
     text-align: center;
+    text-decoration: underline;
 }
 
 .delete-header{
@@ -144,7 +145,8 @@ body{
 .expansion-heading{
     text-align: center;
     text-decoration: underline;
-    margin-bottom: 70px;
+    padding: 30px;
+    margin-bottom: 50px;
 }
 
 .expansion-list{
@@ -191,3 +193,12 @@ body{
 .modal-buttons{
     padding: 10px;
 }
+
+.user-wishlist{
+    text-align: center;
+    text-decoration: underline;
+    padding: 30px;
+}
+
+
+
