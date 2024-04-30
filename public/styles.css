@@ -146,7 +146,6 @@ body{
     text-align: center;
     text-decoration: underline;
     padding: 30px;
-    margin-bottom: 50px;
 }
 
 .expansion-list{
@@ -198,6 +197,23 @@ body{
     text-align: center;
     text-decoration: underline;
     padding: 30px;
+}
+
+.collection-rating-container{
+    display: flex;
+    justify-content: center;
+}
+
+.collection-rating{
+    display: flex;
+    align-items: center;
+    cursor: default; /* prevents text cursor appearing over icon */
+}
+
+.collection-rating-button{
+    margin-right: 6px;
+    cursor: pointer;
+    color: grey;
 }
 
 

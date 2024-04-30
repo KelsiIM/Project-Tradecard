@@ -1,9 +1,9 @@
 const path = require("path");
 const express = require("express");
-const db = require("./connection.js"); //database connection
+const db = require("./connection.js");
 const cookieParser = require("cookie-parser");
 const sessions = require("express-session");
-const bcrypt = require("bcrypt"); // hashing passwords stored in db
+const bcrypt = require("bcrypt");
 
 const app = express();
 
@@ -125,7 +125,7 @@ app.post("/login", async (req, res) => {
     const useremail = req.body.emailField;
     const plainpassword = req.body.passwordField;
 
-    const checkuser = `SELECT * FROM user WHERE email = "${useremail}"`;
+    const checkuser = `SELECT * FROM user WHERE email = ?`;
 
     db.query(checkuser, [useremail], async (err, rows) => {
         if (err) throw err;
@@ -185,17 +185,17 @@ app.post("/register", async (req, res) => {
 app.get("/update-user", (req, res) => {
     const sessionobj = req.session;
 
-   if(sessionobj.authen) {
-    const userId = sessionobj.authen;
-    const updateUser = `SELECT * FROM user WHERE user_id = "${userId}"`;
+    if (sessionobj.authen) {
+        const userId = sessionobj.authen;
+        const updateUser = `SELECT * FROM user WHERE user_id = "${userId}"`;
 
-    db.query(updateUser, (err, rows) => {
-        const firstrow = rows[0];
-        res.render("update-user", {userdata : firstrow});
-    });
-   } else {
-    res.redirect("/login");
-   }
+        db.query(updateUser, (err, rows) => {
+            const firstrow = rows[0];
+            res.render("update-user", { userdata: firstrow });
+        });
+    } else {
+        res.redirect("/login");
+    }
 });
 
 // route that handles the update user details form submission
@@ -256,6 +256,23 @@ app.get("/filter", (req, res) => {
             res.render("404");
         } else {
             res.render("cards", { rowdata: result });
+        }
+    });
+});
+
+// route for filtering collections by their collection name and the user's username (in alphabetical order)
+app.get("/filter-by-name", (req, res) => {
+    const filter = req.query.sort;
+    const collectionName = `SELECT collection.*, user.username FROM collection
+    INNER JOIN
+    user ON collection.user_id = user.user_id
+    ORDER BY ${filter};`;
+
+    db.query(collectionName, (err, result) => {
+        if(err) {
+            res.render("404");
+        } else {
+            res.render("all-collections", {rowdata : result});
         }
     });
 });
@@ -460,10 +477,11 @@ app.post("/remove-card", (req, res) => {
 });
 
 
-
+// route to render the wishlist and any cards added
 app.get("/wishlist", (req, res) => {
     const sessionobj = req.session;
 
+    // check if user is logged in to allow access
     if (sessionobj.authen) {
         const userId = sessionobj.authen;
 
@@ -516,7 +534,7 @@ app.post("/wishlist", (req, res) => {
 app.post("/remove-card-wishlist", (req, res) => {
     const sessionobj = req.session;
     const cardId = req.body.card_id;
-    const wishlistId = req.body.wishlist_id;
+
 
     if (sessionobj.authen) {
         const userId = sessionobj.authen;
@@ -532,6 +550,50 @@ app.post("/remove-card-wishlist", (req, res) => {
         });
     }
 });
+
+// route for letting a user give a "like" to another user's collection
+app.post("/like-collection/:id", (req, res) => {
+    const sessionobj = req.session;
+    const collectionId = req.params.id;
+
+    if (sessionobj.authen) {
+        const userId = sessionobj.authen;
+
+        // to check if the user has already liked a collection
+        const checkLike = `SELECT * FROM likes WHERE collection_id = ? AND user_id = ?`;
+
+        db.query(checkLike, [collectionId, userId], (err, rows) => {
+            if (err) {
+                res.render("404");
+            } else {
+                if (rows.length === 0) {
+                    // query to insert a new like into the likes table
+                    const insertLike = `INSERT INTO likes (is_liked, collection_id, user_id) VALUES (1, ?, ?)`;
+
+                    db.query(insertLike, [collectionId, userId], (err, result) => {
+                        if (err) {
+                            res.render("404");
+                        } else {
+                            // increment the likes count in the collections table in the db
+                            const increaseLike = `UPDATE collection SET likes_count = likes_count + 1 WHERE collection_id = ?`;
+
+                            db.query(increaseLike, [collectionId], (err, result) => {
+                                if (err) {
+                                    res.render("404");
+                                } else {
+                                    res.redirect("/all-collections");
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    res.redirect("/all-collections"); // if user has already liked a collection, nothing will happen
+                }
+            }
+        });
+    }
+});
+
 
 // an error page to handle issues a user might face while using the website
 app.get("/404", (req, res) => {

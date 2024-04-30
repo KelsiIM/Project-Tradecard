@@ -16,11 +16,18 @@
     </header>
 
     <main class="container-fluid">
-        <ul class="expansion-list"> <!--want to display list of expansion names and show the cards belonging to each when clicked-->
-            <% rowdata.forEach(expansion => { %> <!--iterate through expansion table to get the data-->
-                <li><a href="/expansions-cards/<%= expansion.expansion_id %>"><%= expansion.expansion_name %> : <%= expansion.release_date.toString().substring(3, 15) %></a></li> <!--must convert the date to a string in order to trim it-->
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <% rowdata.forEach(expansion => { %>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="/expansions-cards/<%= expansion.expansion_id %>"><%= expansion.expansion_name %></a></h5>
+                            <p class="card-text">Release Date: <%= expansion.release_date.toString().substring(3, 15) %></p>
+                        </div>
+                    </div>
+                </div>
             <% }) %>
-        </ul>
+        </div>
     </main>
 
     <%- include('footer') %>
