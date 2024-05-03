@@ -13,7 +13,7 @@
 
     <main>
         <div class="dashboard-heading">
-            <h1> Welcome <%= userdata.username %> to your Dashboard </h1>
+            <h1> Welcome <strong><%= userdata.username %> </strong> to your Dashboard </h1>
             <h4> About You : <%= userdata.comment %></h4>
         </div>
         
@@ -51,7 +51,7 @@
                   <div class="card-body">
                     <h5 class="card-title">Logout</h5>
                     <p class="card-text">Logout of your account. We hope to see you again soon!</p>
-                    <a href="/logout" class="btn btn-dark">Logout</a>
+                    <a onclick="alert('You have successfully logged out. Goodbye!')" href="/logout" class="btn btn-dark">Logout</a>
                   </div>
                 </div>
               </div>

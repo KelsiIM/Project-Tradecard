@@ -17,6 +17,18 @@ body{
     height: 30px;
 }
 
+.nav-item a{
+    color: black;
+}
+
+.nav-item a:hover{
+    color: darkred;
+}
+
+.btn-dark:hover{
+    background-color: darkred;
+}
+
 .navbar-brand strong{
     font-size: 24px;
 }
@@ -24,28 +36,37 @@ body{
 .welcome-box {
     margin: auto;
     text-align: center;
+    padding: 30px;
 }
 
 .greeting h1{
-    font-size: 3.5rem;
-    margin-top: 40px;
-    margin-bottom: 20px;
+    font-size: 60px;
+    margin-bottom: 40px;
+    text-decoration: underline;
+    text-shadow: 2px 2px;
 }
 
-.greeting h2{
-    padding: 20px;
+.greeting h4{
+    line-height: 1.6;
 }
 
-.buttons {
-    margin-bottom: 30px;
+.home-buttons{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.home-buttons a:hover{
+    background-color: darkred;
 }
 
 .purpose{
     font-size: 1.2rem;
+    line-height: 1.6;
 }
 
-.container h1{
+.facts-header{
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .dashboard-heading h1{
@@ -60,10 +81,18 @@ body{
     margin-bottom: 40px;
 }
 
+.dashboard-options .btn:hover {
+    background-color: darkred;
+}
+
 .value-buttons-container{
    display: flex;
    justify-content: space-between;
    align-items: center;
+}
+
+.value-buttons-container button:hover{
+    background-color: darkred;
 }
 
 .card{
@@ -76,10 +105,41 @@ body{
     padding: 20px;
     margin-bottom: 30px;
 }
+
+.card-info{
+    text-align: center;
+    padding: 15px;
+    margin-right: 10px;
+    line-height: 1.6;
+}
+
+.card-image-api img{
+    height: 850px;
+    width: auto;
+    margin-left: 100px;
+}
+
+.collection-wishlist{
+    display: flex;
+    justify-content: space-between;
+}
+
+.collection-wishlist button {
+    margin-right: 20px; 
+}
+
+.collection-wishlist button:hover{
+    background-color: darkred;
+}
+
 .filter-buttons{
     text-align: center;
     padding: 20px;
     margin-bottom: 40px;
+}
+
+.filter-buttons a:hover{
+    background-color: darkred;
 }
 
 .filter-buttons p{
@@ -101,12 +161,21 @@ body{
 }
 
 .login-details {
-    padding: 30px;
+    padding: 20px;
 }
 
-.login-details button{
-    margin-top: 20px;
+.login-button button{
+    margin-top: 10px;
     margin-bottom: 20px;
+    margin-left: 20px;
+}
+
+.login-button button:hover{
+    background-color: darkred;
+}
+
+.login-button a:hover{
+    color: darkred;
 }
 
 .register-heading{
@@ -123,10 +192,22 @@ body{
     margin-bottom: 20px;
 }
 
+.register-details button:hover{
+    background-color: darkred;
+}
+
+.register-details a:hover{
+    color: darkred;
+}
+
 .update-header{
     padding: 30px;
     text-align: center;
     text-decoration: underline;
+}
+
+.user-details button:hover{
+    background-color: darkred;
 }
 
 .delete-header{
@@ -148,20 +229,23 @@ body{
     padding: 30px;
 }
 
-.expansion-list{
-    text-align: center;
-    list-style-type: none;
+.card-title a{
+    color: darkred;
 }
 
-.user-collection h1, h4{
+.user-collection h1{
     text-align: center;
-    padding: 30px;
+    padding: 20px;
     text-decoration: underline;
 }
 
 .collection-buttons{
     text-align: center;
     margin-top: 10px;
+}
+
+.collection-buttons a:hover{
+    background-color: darkred;
 }
 
 .col-sm-4 {
@@ -189,32 +273,52 @@ body{
     text-align: center;
 }
 
-.modal-buttons{
+.back a:hover{
+    background-color: darkred;
+}
+
+.add-collection{
     padding: 10px;
 }
 
-.user-wishlist{
+.add-collection button:hover{
+    background-color: darkred;
+}
+
+.add-collection a:hover{
+    background-color: darkred;
+}
+
+.user-wishlist h1{
     text-align: center;
     text-decoration: underline;
     padding: 30px;
+    margin-bottom: 20px;
+}
+
+.wishlist-button {
+    text-align: center;
+}
+
+.wishlist-button a:hover{
+    background-color: darkred;
 }
 
 .collection-rating-container{
     display: flex;
     justify-content: center;
+    margin-bottom: 10px;
 }
 
 .collection-rating{
     display: flex;
     align-items: center;
-    cursor: default; /* prevents text cursor appearing over icon */
+    cursor: default; 
 }
 
-.collection-rating-button{
+.collection-rating button{
     margin-right: 6px;
     cursor: pointer;
     color: grey;
+    color: darkred
 }
-
-
-
