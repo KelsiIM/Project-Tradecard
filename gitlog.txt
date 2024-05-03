@@ -1,0 +1,269 @@
+commit 14058569c1711bb58b106a794366691efd978f9d
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-05-03T05:08:11+01:00
+
+    Final commit - mostly aesthetic and bug fixes. Implemented a random card navbar function
+
+72	34	app.js
+128	24	public/styles.css
+1	1	views/all-collections.ejs
+7	3	views/card-details.ejs
+3	3	views/cards.ejs
+17	25	views/choose-collection.ejs
+4	4	views/collection-details.ejs
+1	0	views/create-collection.ejs
+2	2	views/dashboard.ejs
+1	1	views/delete-collection.ejs
+3	1	views/delete-user.ejs
+1	1	views/expansions.ejs
+13	5	views/index.ejs
+3	4	views/login.ejs
+4	4	views/navbar.ejs
+95	0	views/random-card.ejs
+1	4	views/update-user.ejs
+2	2	views/wishlist.ejs
+
+commit af802983e875a26b9d259b76f32ccbbc776fba4c
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-30T19:29:45+01:00
+
+    Implemented a basic like function - allows users to like another user collection. Used bootstrap card template to make expansions page user-friendly. Added required for input fields so they must be filled before info is allowed to submit - prevents user registration with no details
+
+77	15	app.js
+17	1	public/styles.css
+39	19	views/all-collections.ejs
+11	4	views/expansions.ejs
+3	3	views/register.ejs
+
+commit 0ca9bcfbb07c8ec70a695a33a68ce624b14816df
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-29T23:51:48+01:00
+
+    Collections working, wishlist working. A user can successfully update their details
+
+113	7	app.js
+13	2	public/styles.css
+4	1	views/card-details.ejs
+4	1	views/cards.ejs
+5	4	views/collection-details.ejs
+15	5	views/update-user.ejs
+15	8	views/wishlist.ejs
+
+commit 282ef3e2d2c1938fa998da132748b82c2968bf0c
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-29T17:40:31+01:00
+
+    user can add and remove cards from their collection(s). User can view other user's collections
+
+90	4	app.js
+10	1	public/styles.css
+6	1	views/card-details.ejs
+40	31	views/cards.ejs
+48	0	views/choose-collection.ejs
+36	24	views/collection-details.ejs
+3	3	views/navbar.ejs
+28	0	views/wishlist.ejs
+
+commit 091e475df8c67104939d2dc883ac078797cc6457
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-28T18:35:43+01:00
+
+    ability to delete a collection, can also view the cards in a user's collection
+
+81	41	app.js
+-	-	public/pikachu.png
+4	4	public/styles.css
+0	1	views/404.ejs
+1	1	views/all-collections.ejs
+2	2	views/card-details.ejs
+3	2	views/cards.ejs
+26	4	views/collection-details.ejs
+2	2	views/collection.ejs
+33	0	views/delete-collection.ejs
+2	2	views/expansions.ejs
+3	3	views/navbar.ejs
+
+commit f46124385361825a40080feb65375c9388d4a45d
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-28T07:06:39+01:00
+
+    Still working on collections. Added a 404.ejs - page not found for error handling
+
+86	32	app.js
+-	-	public/pikachu.png
+25	5	public/styles.css
+30	0	views/404.ejs
+17	0	views/all-collections.ejs
+2	1	views/card-details.ejs
+1	1	views/cards.ejs
+23	0	views/collection-details.ejs
+10	9	views/collection.ejs
+6	6	views/dashboard.ejs
+
+commit a82a8cfde07814b23ebc1f11c815cb7d898c08a3
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-27T17:35:10+01:00
+
+    A user is able to create a new collection, and display it on their collections page. Need to add functionality of being able to add cards to the collection
+
+87	8	app.js
+40	2	public/styles.css
+22	0	views/all-collections.ejs
+2	2	views/{card_details.ejs => card-details.ejs}
+8	1	views/cards.ejs
+41	0	views/collection.ejs
+42	0	views/create-collection.ejs
+5	5	views/dashboard.ejs
+3	3	views/expansions.ejs
+4	1	views/login.ejs
+3	0	views/navbar.ejs
+2	2	views/update-user.ejs
+20	0	views/wishlist.ejs
+
+commit 7abfdfaad6379d2a09d38d937bdea2dac9f2a984
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-25T16:13:58+01:00
+
+    fixed css and bootstrap elements to adjust the position and size of the cards. can now view expansions as a list, and see which cards belong to each one
+
+16	2	app.js
+8	3	public/styles.css
+59	23	views/card_details.ejs
+4	4	views/cards.ejs
+11	0	views/expansions.ejs
+2	2	views/index.ejs
+
+commit 89619dbf75860c377d8f70b02cf30f788870775a
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-24T16:45:38+01:00
+
+    user has ability to delete account if they wish, card details are now displayed for each card when clicked on. Created update-user.ejs to implement later which will allow user to update their details
+
+44	2	app.js
+1	2	package.json
+20	0	public/styles.css
+27	1	views/card_details.ejs
+3	3	views/cards.ejs
+3	3	views/dashboard.ejs
+38	0	views/delete-user.ejs
+2	1	views/login.ejs
+4	4	views/register.ejs
+39	0	views/update-user.ejs
+
+commit 7d92a261623121b6d4e96c50e8a93ad7c6ff6fc3
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-23T12:43:10+01:00
+
+    Tried adding admin functionality - might come back to it. User can successfully register and login, DB is updated - bcrypt used for hashing password and comparing
+
+42	16	app.js
+12	0	package-lock.json
+2	1	package.json
+41	1	public/styles.css
+1	1	views/cards.ejs
+2	1	views/dashboard.ejs
+1	1	views/index.ejs
+21	8	views/login.ejs
+4	8	views/navbar.ejs
+31	0	views/register.ejs
+
+commit 3d211e991227a6d67d31add32e316b7e353c90a8
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-18T16:57:58+01:00
+
+    basic log in created using sessions to create state
+
+63	19	app.js
+1	0	connection.js
+510	6	package-lock.json
+1	0	package.json
+4	8	public/styles.css
+14	11	views/cards.ejs
+3	2	views/dashboard.ejs
+11	0	views/login.ejs
+
+commit 15ff87726a3c592df5bb6bb680b51bdf87cf5d06
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-17T19:54:22+01:00
+
+    added to home page
+
+9	0	public/styles.css
+2	2	views/cards.ejs
+21	9	views/index.ejs
+
+commit 81a958bbf01f025584501a8d06add3b689cd2c20
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-17T19:02:15+01:00
+
+    Added Dashboard and an icon in navbar, removed partials folder & put navbar/footer in views, have loop to display cards with value and buttons
+
+39	9	app.js
+2	1	connection.js
+-	-	public/pokeball.png
+-	-	public/pokemon.png
+25	46	public/styles.css
+20	0	views/card_details.ejs
+28	6	views/cards.ejs
+73	0	views/dashboard.ejs
+5	6	views/expansions.ejs
+24	0	views/footer.ejs
+55	28	views/index.ejs
+19	0	views/login.ejs
+47	0	views/navbar.ejs
+0	28	views/partials/footer.ejs
+0	44	views/partials/navbar.ejs
+0	55	views/partials/navbar_user.ejs
+19	0	views/register.ejs
+0	55	views/signup.ejs
+
+commit 79c2669f9c858e44ce36b0358ddea87d856d63ef
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-14T13:24:39+01:00
+
+    Added a page to display expansions, and for signing up. Added routing to these pages
+
+9	7	app.js
+4	0	public/styles.css
+20	0	views/expansions.ejs
+2	2	views/index.ejs
+1	2	views/partials/footer.ejs
+2	2	views/partials/navbar.ejs
+1	1	views/partials/navbar_user.ejs
+55	0	views/signup.ejs
+
+commit 7bba9e7953ccf00a459fbecbd176bee0bde04f62
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-04-13T21:38:41+01:00
+
+    Added partials, a page to display the cards and connection.js
+
+15	4	app.js
+14	0	connection.js
+20	0	views/cards.ejs
+4	41	views/index.ejs
+29	0	views/partials/footer.ejs
+44	0	views/partials/navbar.ejs
+55	0	views/partials/navbar_user.ejs
+
+commit faa5bd150c2ee6cdd82f01444e6004c942c16fdf
+Author: 40429391 <kindreicamurphy01@qub.ac.uk>
+Date:   2024-03-19T23:15:21+00:00
+
+    First commit - basic homepage with navbar
+
+20	0	app.js
+1385	0	package-lock.json
+22	0	package.json
+-	-	public/pokemon.png
+73	0	public/styles.css
+79	0	views/index.ejs
+
+commit 56da44b223a670f2f4c5aa0058c1b2cb99171922
+Author: Kelsi Indreica-Murphy <156103001+KelsiIM@users.noreply.github.com>
+Date:   2024-03-17T14:18:14+00:00
+
+    Initial commit
+
+130	0	.gitignore
+2	0	README.md
